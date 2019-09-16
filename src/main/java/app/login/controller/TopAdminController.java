@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-public class HelloController {
+public class TopAdminController {
 	
-	@RequestMapping("/hello")
+	/**
+	 * 初期処理 管理者用TOPページのビューを取得
+	 * @return 管理者用TOPページのビュー
+	 */
+	@RequestMapping("/top_admin/init")
 	private String init() {
-		return "hello";
+		return "top_admin";
 	}
 
 }

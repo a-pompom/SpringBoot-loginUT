@@ -1,12 +1,12 @@
   
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Hello</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap&subset=japanese" rel="stylesheet">
-	<link rel="stylesheet" href="./css/normalize.css">
-	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 			
 			<h2>LOGIN SUCCESS!!</h2>
 			<h2 class="login__header__link-text">
-				<a href="signup.html">Logout</a>
+				<a th:href="@{/logout}">Logout</a>
 			</h2>
 		</header>
 		

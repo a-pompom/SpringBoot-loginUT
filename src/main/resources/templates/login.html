@@ -1,12 +1,12 @@
   
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap&subset=japanese" rel="stylesheet">
-	<link rel="stylesheet" href="./css/normalize.css">
-	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
@@ -16,27 +16,29 @@
 			
 			<h2>Login UT</h2>
 			<h2 class="login__header__link-text">
-				<a href="signup.html">Sign Up</a>
+				<a th:href="@{/signup/init}">Sign Up</a>
 			</h2>
 			
 		</header>
 		
 		<article class="login__form">
 		
-			<form action="#" method="post">
+			<form th:action="@{/sign_in}" method="post">
 				
 				<label for="userName" class="login-input login__form__item">
-					<input type="text" placeholder="&nbsp;" id="userName">
+					<input type="text" placeholder="&nbsp;" id="userName" name="username">
 					<span class="login-input__placeholder">Username</span>
 					<span class="login-input__border"></span>
-					<span class="login-input__error-message">error userName</span>
+					
+					<span th:if="${param.error}" class="login-input__error-message">ユーザ名、またはパスワードが間違っています</span>
 				</label>
 				
 				<label for="password" class="login-input login__form__item">
-					<input type="password" placeholder="&nbsp;" id="password">
+					<input type="password" placeholder="&nbsp;" id="password" name="password">
 					<span class="login-input__placeholder">Password</span>
 					<span class="login-input__border"></span>
-					<span class="login-input__error-message">error password</span>
+					
+					<span th:if="${param.error}" class="login-input__error-message">ユーザ名、またはパスワードが間違っています</span>
 				</label>
 				
 				<br>

@@ -1,12 +1,12 @@
   
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Sign Up</title>
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap&subset=japanese" rel="stylesheet">
-	<link rel="stylesheet" href="./css/normalize.css">
-	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
@@ -16,28 +16,30 @@
 			
 			<h2>Login UT</h2>
 			<h2 class="login__header__link-text">
-				<a href="login.html">Login</a>
+				<a th:href="@{/}">Login</a>
 			</h2>
 			
 		</header>
 		
 		<article class="login__form">
 		
-			<form action="#" method="post">
+			<form th:action="@{/signup/register}" method="post" th:object="${userForm}">
 				
 				<label for="newUserName" class="login-input login__form__item">
-					<input type="text" placeholder="&nbsp;" id="newUserName">
+					<input type="text" placeholder="&nbsp;" th:field="*{username}" id="newUserName">
 					<span class="login-input__placeholder">Username</span>
 					<span class="login-input__border"></span>
-					<span class="login-input__error-message">error userName</span>
+					
+					<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="login-input__error-message">error userName</span>
 				</label>
 				
 				
 				<label for="newPassword" class="login-input login__form__item">
-					<input type="password" placeholder="&nbsp;" id="newPassword">
+					<input type="password" placeholder="&nbsp;" th:field="*{rawPassword}" id="newPassword">
 					<span class="login-input__placeholder">Password</span>
 					<span class="login-input__border"></span>
-					<span class="login-input__error-message">error password</span>
+					
+					<span th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}" class="login-input__error-message">error password</span>
 				</label>
 				
 				<br>
