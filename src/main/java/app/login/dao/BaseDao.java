@@ -16,8 +16,11 @@ public class BaseDao<T> {
 	private EntityManager em;
 			
 	//コンストラクタ
-	public BaseDao(EntityManager em) {
-		this.em = em;
+	public BaseDao() {
+	}
+	
+	public EntityManager getEm() {
+		return this.em;
 	}
 	
 	/**
