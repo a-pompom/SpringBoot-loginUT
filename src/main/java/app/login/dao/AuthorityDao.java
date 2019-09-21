@@ -15,10 +15,6 @@ import app.login.util.QueryBuilder;
 @Component
 public class AuthorityDao extends BaseDao<Authority>{
 	
-	public AuthorityDao() {
-		super();
-	}
-	
 	/**
 	 * ユーザが持つ権限を取得
 	 * @param userId 対象のユーザID Principalオブジェクトから取得
