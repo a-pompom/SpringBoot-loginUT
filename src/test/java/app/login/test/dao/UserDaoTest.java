@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +27,8 @@ import app.login.test.util.CsvDataSetLoader;
 
 /**
  * ユーザ登録Daoのテストクラス
+ * 権限設定はサービスレイヤーで行われ、かつ権限情報自体はSpringSecurityのセッションで保持されるので、
+ * Daoレイヤーでは、ユーザ名・パスワードが正しく設定・取得できるかのみを検証する
  * @author aoi
  *
  */
@@ -35,7 +36,6 @@ import app.login.test.util.CsvDataSetLoader;
 @DbUnitConfiguration(dataSetLoader = CsvDataSetLoader.class)
 @TestExecutionListeners({
 	  DependencyInjectionTestExecutionListener.class,
-	  DirtiesContextTestExecutionListener.class,
 	  TransactionalTestExecutionListener.class,
 	  DbUnitTestExecutionListener.class
 	})
@@ -49,7 +49,7 @@ public class UserDaoTest {
 	@BeforeEach
 	void setUp() {
 	}
-	
+
 	@Test
 	@DatabaseSetup(value = "/signup/setUp/")
 	@ExpectedDatabase(value = "/signup/create/", assertionMode=DatabaseAssertionMode.NON_STRICT)
@@ -69,8 +69,4 @@ public class UserDaoTest {
 		
 		assertThat(actual.getUsername(), is("user1"));
 	}
-	
-	
-	
-
 }
