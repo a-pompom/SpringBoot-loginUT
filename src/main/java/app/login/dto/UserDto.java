@@ -1,5 +1,8 @@
 package app.login.dto;
 
+import java.util.List;
+
+import app.login.entity.Authority;
 import lombok.Data;
 
 /**
@@ -21,4 +24,6 @@ public class UserDto {
 	private String username;
 	
 	private String password;
+	
+	private List<Authority> authList;
 }
