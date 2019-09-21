@@ -38,8 +38,10 @@ public class SignUpService {
 	 * @param dto
 	 */
 	@Transactional
-	public void registerUser(UserDto dto) {
-		userDao.saveOrUpdate(createEntity(dto));
+	public UserDto registerUser(UserDto dto) {
+		User responseUser = userDao.saveOrUpdate(createEntity(dto));
+		
+		return convertToDto(responseUser);
 	}
 	
 	/**
@@ -66,6 +68,23 @@ public class SignUpService {
 		user.getAuthList().add(authDao.findByAuthority(LoginConst.AuthType.USER.toString()));
 		
 		return user;
+	}
+	
+	/**
+	 * UserエンティティをDTOへ詰め替える
+	 * @param user
+	 * @return ユーザDTO
+	 */
+	private UserDto convertToDto(User user) {
+		UserDto responseDto = new UserDto();
+		responseDto.setUserId(user.getUserId());
+		
+		responseDto.setUsername(user.getUsername());
+		responseDto.setPassword(user.getPassword());
+		
+		responseDto.setAuthList(user.getAuthList());
+		
+		return responseDto;
 	}
 
 }

@@ -73,6 +73,7 @@ public class SignUpController {
 		}
 		
 		UserDto dto = SignUpControllerHelper.formToDto(form, new UserDto()); 
+		
 		signUpService.registerUser(dto);
 		
 		// DTOのパスワードはハッシュ化されているので、Formオブジェクトを利用して認証を行う
