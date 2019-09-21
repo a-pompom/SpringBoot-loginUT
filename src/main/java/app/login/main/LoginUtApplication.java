@@ -1,8 +1,12 @@
-package com.example.demo;
+package app.login.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan("app.login")
+@EntityScan("app.login.entity")
 @SpringBootApplication
 public class LoginUtApplication {
 

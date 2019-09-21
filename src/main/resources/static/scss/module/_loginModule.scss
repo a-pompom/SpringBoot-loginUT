@@ -1,0 +1,36 @@
+.login-input {
+	$color: ("textColor": $darkest, "accentColor":$accent-strong, "nonActiveColor": $light);
+	$scale: ("perWidth": 60%, "height": 48px);
+	@include input-simple($color, $scale, 1.0rem);
+	
+	
+	&__error-message {
+		
+		position: absolute;
+		
+		top: 60px;
+		left: 10px;
+		
+		color: $reverseAccent;
+		
+	}
+
+}
+
+.login-button {
+	
+	@extend %button--simple;
+	
+	width: 50%;
+	height: 42px;
+	
+	font-size: 1.3rem;
+	
+	background-color: $lightest; 
+	color: $accent-strong;
+
+	&:hover {
+		background-color: $accent-strong;
+	}
+	
+}
