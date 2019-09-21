@@ -13,7 +13,7 @@ import app.login.util.QueryBuilder;
  *
  */
 @Component
-public class AuthorityDao extends BaseDao<AuthorityDao>{
+public class AuthorityDao extends BaseDao<Authority>{
 	
 	public AuthorityDao() {
 		super();
@@ -26,7 +26,7 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 	 */
 	public List<Authority> findUserAuthorityList(Long userId) {
 		
-		QueryBuilder query = new QueryBuilder(getEm());
+		QueryBuilder query = new QueryBuilder();
 		
 		query.append("select auth.authority_id, auth.authority ");
 		query.append(" from ut_user_authority ua ");
@@ -38,7 +38,7 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 		
 		query.append(" where user_id = :userId").setParam("userId", userId);
 		
-		return query.createQuery(Authority.class).findResultList();
+		return findResultList(query.createQuery(Authority.class, getEm()));
 	}
 	
 	/**
@@ -47,14 +47,14 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 	 * @return 権限エンティティ
 	 */
 	public Authority findByAuthority(String theAuthority) {
-		QueryBuilder query = new QueryBuilder(getEm());
+		QueryBuilder query = new QueryBuilder();
 		
 		query.append("select authority_id, authority ");
 		query.append(" from ut_authority ");
 		
 		query.append(" where authority = :theAuthority").setParam("theAuthority", theAuthority);
 		
-		return query.createQuery(Authority.class).findSingle();
+		return findSingle(query.createQuery(Authority.class, getEm()));
 	}
 
 }

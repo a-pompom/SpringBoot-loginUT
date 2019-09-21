@@ -21,13 +21,13 @@ public class UserDao extends BaseDao<User>{
 	 */
 	public User findByUsername(String username) {
 		
-		QueryBuilder query = new QueryBuilder(getEm());
+		QueryBuilder query = new QueryBuilder();
 		
 		query.append("select user_id, username, password ");
 		query.append(" from ut_user ");
 		query.append(" where username = :username").setParam("username", username);
 		
-		return query.createQuery(User.class).findSingle();
+		return findSingle(query.createQuery(User.class, getEm()));
 	}
 	
 }
