@@ -2,9 +2,6 @@ package app.login.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.stereotype.Component;
 
 import app.login.entity.Authority;
@@ -16,14 +13,7 @@ import app.login.util.QueryBuilder;
  *
  */
 @Component
-public class AuthorityDao extends BaseDao<AuthorityDao>{
-	
-	@PersistenceContext
-	private EntityManager em;
-	
-	public AuthorityDao(EntityManager em) {
-		super(em);
-	}
+public class AuthorityDao extends BaseDao<Authority>{
 	
 	/**
 	 * ユーザが持つ権限を取得
@@ -32,7 +22,7 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 	 */
 	public List<Authority> findUserAuthorityList(Long userId) {
 		
-		QueryBuilder query = new QueryBuilder(em);
+		QueryBuilder query = new QueryBuilder();
 		
 		query.append("select auth.authority_id, auth.authority ");
 		query.append(" from ut_user_authority ua ");
@@ -44,7 +34,7 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 		
 		query.append(" where user_id = :userId").setParam("userId", userId);
 		
-		return query.createQuery(Authority.class).findResultList();
+		return findResultList(query.createQuery(Authority.class, getEm()));
 	}
 	
 	/**
@@ -53,14 +43,14 @@ public class AuthorityDao extends BaseDao<AuthorityDao>{
 	 * @return 権限エンティティ
 	 */
 	public Authority findByAuthority(String theAuthority) {
-		QueryBuilder query = new QueryBuilder(em);
+		QueryBuilder query = new QueryBuilder();
 		
 		query.append("select authority_id, authority ");
 		query.append(" from ut_authority ");
 		
 		query.append(" where authority = :theAuthority").setParam("theAuthority", theAuthority);
 		
-		return query.createQuery(Authority.class).findSingle();
+		return findSingle(query.createQuery(Authority.class, getEm()));
 	}
 
 }
