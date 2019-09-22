@@ -1,28 +1,27 @@
 package app.login.test.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import app.login.service.UserDetailsServiceImpl;
-
 public class WithMockCustomUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser>{
-	
+		
 	@Autowired
-	private UserDetailsServiceImpl userDetaisService;
+	private AuthenticationManager authenticationManager;
 	
 	public SecurityContext createSecurityContext(WithMockCustomUser customUser) {
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
 		
-		UserDetails principal = userDetaisService.loadUserByUsername(customUser.username());
+		// ユーザ名・パスワードで認証するためのトークンを発行
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(customUser.username(), customUser.password());		
+		// ログイン処理
+		Authentication auth = authenticationManager.authenticate(authToken);
 		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(principal.getUsername(), principal.getPassword(), principal.getAuthorities());
-		
-		context.setAuthentication(authentication);
+		context.setAuthentication(auth);
 		
 		return context;
 	}

@@ -1,6 +1,7 @@
 package app.login.test.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
@@ -43,10 +44,18 @@ public class TopUserControllerTest {
 	
 	@Test
 	@DatabaseSetup(value = "/controller/top/setUp/")
-	@WithMockCustomUser(username="top_user")
+	@WithMockCustomUser(username="top_user", password="password")
 	void init処理でviewとしてユーザトップが渡される() throws Exception {
 		this.mockMvc.perform(get("/top_user/init"))
 			.andExpect(view().name("top_user"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	@WithMockCustomUser(username="top_user", password="password")
+	void init処理でログインユーザ名がモデルへ渡される() throws Exception {
+		this.mockMvc.perform(get("/top_user/init"))
+			.andExpect(model().attribute("loginUsername", "top_user"));
 	}
 
 }

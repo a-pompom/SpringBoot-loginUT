@@ -11,5 +11,6 @@ import org.springframework.security.test.context.support.WithSecurityContext;
 public @interface WithMockCustomUser {
 	
 	String username();
+	String password();
 
 }

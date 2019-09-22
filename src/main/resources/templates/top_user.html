@@ -12,20 +12,23 @@
 
 	<div class="login-container">
 	
-		<header class="login__header">
+		<form th:action="@{/logout}" method="post">
+	
+			<header class="login__header">
+				
+				<h2>LOGIN SUCCESS!!</h2>
+				<h2 class="login__header__link-text">
+					<input type="submit" value="Logout">
+				</h2>
+			</header>
 			
-			<h2>LOGIN SUCCESS!!</h2>
-			<h2 class="login__header__link-text">
-				<a th:href="@{/logout}">Logout</a>
-			</h2>
-		</header>
-		
-		<article class="login__message">
-		
-			<h1 class="login__message--success">Hello! USER!!</h1>
+			<article class="login__message">
 			
-		</article>
-		
+				<h1 class="login__message--success">Hello! USER!!</h1>
+				<h2 class="login__message--success" th:text="${loginUsername}"></h2>
+				
+			</article>
+		</form>
 	</div>
 	
 </body>
