@@ -3,6 +3,7 @@ package app.login.test.controller;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -45,11 +46,41 @@ public class LoginControllerTest {
 	
 	@Test
 	@DatabaseSetup(value = "/controller/top/setUp/")
-	void ログインできる() throws Exception {
+	void DB上に存在する利用者ユーザでログインできる() throws Exception {
 		this.mockMvc.perform(formLogin("/sign_in")
 				.user("top_user")
-				.password("password")
-				).andDo(print());
+				.password("password"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/top_user/init"));
+	}
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	void DB上に存在する管理者ユーザでログインできる() throws Exception {
+		this.mockMvc.perform(formLogin("/sign_in")
+				.user("admin_user")
+				.password("password"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/top_admin/init"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	void DB上に存在するユーザでパスワードを間違えると失敗画面へリダイレクトされる() throws Exception {
+		this.mockMvc.perform(formLogin("/sign_in")
+				.user("top_user")
+				.password("wrongpassword"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/?error"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	void DB上に存在しないユーザでログインするとエラーURLへリダイレクトされる() throws Exception {
+		this.mockMvc.perform(formLogin("/sign_in")
+				.user("nobody")
+				.password("password"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/?error"));
 	}
 
 }
