@@ -65,12 +65,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		// 認可
 		http
 			.authorizeRequests()
-				.antMatchers("/signup/*").permitAll()
+				.antMatchers("/signup/*", "/*").permitAll()
 				
 				.anyRequest().authenticated()
 				.antMatchers("/top_admin/*").hasAnyAuthority("ADMIN")
 				.antMatchers("/top_user/*").hasAnyAuthority("USER")
-				.and()
+			.and()
 			// 認証
 			.formLogin()
 				.loginPage("/")
@@ -80,11 +80,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.successHandler(successHandler)
 				.failureUrl("/?error")
 				.permitAll()
-				.and()
+			.and()
 			// ログアウト
 			.logout()
 				.logoutUrl("/logout")
-				.logoutSuccessUrl("/login?logout")
+				.clearAuthentication(true)
+				.logoutSuccessUrl("/?logout")
+				.invalidateHttpSession(true)
 				.permitAll();
 	}
 	

@@ -2,7 +2,6 @@ package app.login.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,7 +61,7 @@ public class SignUpController {
 	 * @return TOP画面のビュー
 	 */
 	@RequestMapping(value = "/signup/register")
-	private ModelAndView register(HttpServletRequest request, @Valid UserForm form, BindingResult result) {
+	private ModelAndView register(HttpServletRequest request, @Validated UserForm form, BindingResult result) {
 		
 		/**
 		 * 以下について検証

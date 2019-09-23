@@ -10,8 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 
@@ -32,9 +33,10 @@ public class User extends BaseEntity {
 	private String password;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ut_user_authority", joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "authority_id"))
+			inverseJoinColumns = @JoinColumn(name = "authority_id"),
+			uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "authority_id" })})
 	private List<Authority> authList;
 
 }
