@@ -1,7 +1,10 @@
 package app.login.test.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -56,6 +60,16 @@ public class TopAdminControllerTest {
 	void init処理でログインユーザ名がモデルへ渡される() throws Exception {
 		this.mockMvc.perform(get("/top_admin/init"))
 			.andExpect(model().attribute("loginUsername", "admin_user"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	@WithMockCustomUser(username="top_user", password="password")
+	void ログアウト処理でログイン画面へ遷移する() throws Exception {
+		this.mockMvc.perform(post("/logout")
+			.with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/?logout"));
 	}
 
 }
