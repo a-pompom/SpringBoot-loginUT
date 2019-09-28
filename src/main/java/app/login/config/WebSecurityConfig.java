@@ -22,12 +22,15 @@ import app.login.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	// 認証ユーザサービス
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 	
+	// ログイン成功時のハンドラ
 	@Autowired
 	private SuccessHandler successHandler;
 	
+	// パスワードのエンコード処理を行うBean
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -65,9 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		// 認可
 		http
 			.authorizeRequests()
-				.antMatchers("/signup/*", "/*").permitAll()
+				.antMatchers("/signup/*", "/*").permitAll() //ログイン画面・ユーザ登録画面は誰でも参照可
 				
 				.anyRequest().authenticated()
+				// トップ画面はユーザ権限によって表示を分岐
 				.antMatchers("/top_admin/*").hasAnyAuthority("ADMIN")
 				.antMatchers("/top_user/*").hasAnyAuthority("USER")
 			.and()

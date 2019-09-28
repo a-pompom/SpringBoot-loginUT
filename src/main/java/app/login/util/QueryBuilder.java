@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import app.login.entity.BaseEntity;
-
 /**
  * クエリ作成クラス
  * 呼び出す際は以下手順で利用する

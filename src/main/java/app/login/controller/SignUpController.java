@@ -65,8 +65,8 @@ public class SignUpController {
 		
 		/**
 		 * 以下について検証
-		 * ユーザ名: [空でない, ユニーク, 半角英数及び一部記号で構成]
-		 * パスワード: [空でない, ユニーク, 半角英数及び一部記号で構成]
+		 * ユーザ名: [ユニーク, 半角英数及び一部記号で構成]
+		 * パスワード: [ユニーク, 半角英数及び一部記号で構成]
 		 */
 		if (result.hasErrors()) {
 			return new ModelAndView("signup");

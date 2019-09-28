@@ -18,7 +18,5 @@ public class UserForm {
 	
 	@AuthInputType
 	private String rawPassword;
-	
-	private String cofirmPassword;
 
 }
