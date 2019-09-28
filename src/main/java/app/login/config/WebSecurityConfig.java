@@ -68,12 +68,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		// 認可
 		http
 			.authorizeRequests()
-				.antMatchers("/signup/*", "/*").permitAll() //ログイン画面・ユーザ登録画面は誰でも参照可
+				.antMatchers("/signup/*").permitAll() //ユーザ登録画面は誰でも参照可
+				// トップ画面はユーザ権限によって表示を分岐
+				.antMatchers("/top_admin/**").hasAuthority("ADMIN")
+				.antMatchers("/top_user/**").hasAuthority("USER")
 				
 				.anyRequest().authenticated()
-				// トップ画面はユーザ権限によって表示を分岐
-				.antMatchers("/top_admin/*").hasAnyAuthority("ADMIN")
-				.antMatchers("/top_user/*").hasAnyAuthority("USER")
 			.and()
 			// 認証
 			.formLogin()

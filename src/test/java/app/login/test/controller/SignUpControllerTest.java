@@ -82,7 +82,7 @@ public class SignUpControllerTest {
 	}
 	
 	@Test
-	void 空文字をPOSTするとNotEmptyエラーが発生() throws Exception {
+	void 空文字をPOSTするとAuthInputTypeエラーが発生() throws Exception {
 		this.mockMvc.perform(post("/signup/register")
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 			.param("username", "")
@@ -91,10 +91,7 @@ public class SignUpControllerTest {
 		
 			.andExpect(model().hasErrors())
 			.andExpect(model().attributeHasFieldErrorCode("userForm", "username", "AuthInputType"))
-			.andExpect(model().attributeHasFieldErrorCode("userForm", "rawPassword", "AuthInputType"));
-			
-		
-			
+			.andExpect(model().attributeHasFieldErrorCode("userForm", "rawPassword", "AuthInputType"));	
 	}
 	
 	@Test

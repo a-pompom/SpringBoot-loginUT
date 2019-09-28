@@ -2,6 +2,7 @@ package app.login.test.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,12 +65,28 @@ public class TopAdminControllerTest {
 	
 	@Test
 	@DatabaseSetup(value = "/controller/top/setUp/")
-	@WithMockCustomUser(username="top_user", password="password")
+	@WithMockCustomUser(username="admin_user", password="password")
 	void ログアウト処理でログイン画面へ遷移する() throws Exception {
 		this.mockMvc.perform(post("/logout")
 			.with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/?logout"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	void 未ログインユーザは管理者トップ画面へURL直打ちで遷移できない() throws Exception {
+		this.mockMvc.perform(get("/top_admin/init"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("http://localhost/"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	@WithMockCustomUser(username="top_user", password="password")
+	void ユーザ権限のユーザは管理者トップ画面へURL直打ちで遷移できない() throws Exception {
+		this.mockMvc.perform(get("/top_admin/init"))
+		.andExpect(status().isForbidden());
 	}
 
 }

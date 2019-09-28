@@ -1,9 +1,7 @@
 package app.login.test.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,6 +70,22 @@ public class TopUserControllerTest {
 			.with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/?logout"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	void 未ログインユーザはユーザトップ画面へURL直打ちで遷移できない() throws Exception {
+		this.mockMvc.perform(get("/top_user/init"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("http://localhost/"));
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/controller/top/setUp/")
+	@WithMockCustomUser(username="admin_user", password="password")
+	void 管理者権限のユーザはユーザトップ画面へURL直打ちで遷移できない() throws Exception {
+		this.mockMvc.perform(get("/top_user/init"))
+		.andExpect(status().isForbidden());
 	}
 
 }
